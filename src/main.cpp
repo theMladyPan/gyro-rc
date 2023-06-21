@@ -57,11 +57,10 @@ void setup() {
     tft.setRotation(1);
     tft.fillScreen(TFT_BLACK);
     tft.setTextColor(TFT_WHITE, TFT_BLACK, true);
+    setCpuFrequencyMhz(240);
 }
 
 void loop() {
-    loopnr++;
-
     // read channel 1-6
     for (int i=0; i<6; i++) {
         vals[i] = IBus.readChannel(i);  // read channel i, value is between 1000 and 2000
@@ -79,9 +78,13 @@ void loop() {
         tft.drawString(ss.str().c_str(), 10, i*16, 2);
         Serial.print(ss.str().c_str());
     }
+    // print loop counter
+    ss.str("");
+    ss << "Loop: " << loopnr++;
+    tft.drawString(ss.str().c_str(), 10, 100, 2);
     Serial.println();
     IBus.setSensorMeasurement(0, loopnr); // set sensor value to 1234
-        
-    espDelay(100);
+    
+    espDelay(1000);
 }
 
